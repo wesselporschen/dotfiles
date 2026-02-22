@@ -43,7 +43,6 @@ vim.pack.add({
 
 
 -- style and colorscheme
-
 vim.cmd.colorscheme("vague")
 
 vim.api.nvim_set_hl(0, "Search", {
