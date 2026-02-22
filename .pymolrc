@@ -1,0 +1,3 @@
+import psico.msms
+import psico.fullinit
+set seq_view, 1
