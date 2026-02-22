@@ -29,11 +29,20 @@ vim.keymap.set({ 'n', 'v', 'x' }, '<leader>y', '"+y<CR>')
 vim.keymap.set({ 'n', 'v', 'x' }, '<leader>d', '"+d<CR>')
 
 
--- style and colorscheme
+-- plugins
 
 vim.pack.add({
+    { src = "https://github.com/stevearc/oil.nvim" },
+    { src = "https://github.com/echasnovski/mini.pick" },
+    { src = "https://github.com/neovim/nvim-lspconfig" },
+    { src = "https://github.com/chomosuke/typst-preview.nvim" },
+    { src = "https://github.com/nvim-lua/plenary.nvim" },
+    { src = "https://github.com/theprimeagen/harpoon" },
     { src = "https://github.com/vague2k/vague.nvim" },
 })
+
+
+-- style and colorscheme
 
 vim.cmd.colorscheme("vague")
 
@@ -47,17 +56,6 @@ vim.api.nvim_set_hl(0, "IncSearch", {
     bg = "#ff8800",
 })
 
--- plugins
-
-vim.pack.add({
-    { src = "https://github.com/stevearc/oil.nvim" },
-    { src = "https://github.com/echasnovski/mini.pick" },
-    { src = "https://github.com/neovim/nvim-lspconfig" },
-    { src = "https://github.com/chomosuke/typst-preview.nvim" },
-    { src = "https://github.com/nvim-lua/plenary.nvim" },
-    { src = "https://github.com/theprimeagen/harpoon" },
-})
-
 
 -- lsp and completion
 
@@ -68,6 +66,8 @@ vim.lsp.enable({
 })
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+
 
 -- harpoon
 
@@ -81,13 +81,17 @@ vim.keymap.set('n', '<leader>2', function() ui.nav_file(2) end)
 vim.keymap.set('n', '<leader>3', function() ui.nav_file(3) end)
 vim.keymap.set('n', '<leader>4', function() ui.nav_file(4) end)
 
+
 -- oil
+
 require "oil".setup()
 
 vim.keymap.set('n', '<leader>e', ':Oil<CR>')
 vim.keymap.set('n', '<leader>gl', ':lua vim.diagnostic.open_float()<CR>')
 
+
 -- mini.pick
+
 require "mini.pick".setup()
 
 vim.keymap.set('n', '<leader>h', ':Pick help<CR>')
