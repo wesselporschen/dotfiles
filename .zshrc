@@ -70,11 +70,14 @@ alias cl="clear"
 alias q="/Users/wes/Documents/code/scripts/quoter.sh"
 alias t="tgpt -m"
 
+# temp aliases on macOS until nvim 0.12 release
 alias n="~/.local/share/bob/nightly/bin/nvim"
 alias vim="~/.local/share/bob/nightly/bin/nvim"
 alias nvim="~/.local/share/bob/nightly/bin/nvim"
 
-alias dot="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+# separate git management of dotfiles
+# from yt/@semicolonsons https://www.youtube.com/watch?v=LI_Tv5dJkkk
+alias dot="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME" # separate git management of dotfiles
 
 source <(fzf --zsh)
 
