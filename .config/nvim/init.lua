@@ -1,3 +1,6 @@
+ -- [[ modules ]] --
+require("theme").apply()
+
 -- [[ options ]] --
 
 vim.opt.number = true
@@ -50,23 +53,8 @@ vim.pack.add({
     { src = "https://github.com/nvim-lua/plenary.nvim" },
     { src = "https://github.com/theprimeagen/harpoon" },
     { src = "https://github.com/mbbill/undotree" },
-    { src = "https://github.com/vague2k/vague.nvim" },
 })
 
-
--- [[ style and colorscheme ]] --
-
-vim.cmd.colorscheme("vague")
-
-vim.api.nvim_set_hl(0, "Search", {
-    fg = "#000000",
-    bg = "#ffcc00",
-})
-
-vim.api.nvim_set_hl(0, "IncSearch", {
-    fg = "#000000",
-    bg = "#ff8800",
-})
 
 -- undotree
 
