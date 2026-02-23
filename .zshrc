@@ -80,6 +80,7 @@ alias nvim="~/.local/share/bob/nightly/bin/nvim"
 alias dot="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME" # separate git management of dotfiles
 
 # rsyncing to and from servers
+alias mirrors="cd ~/Documents/bps/RP2/rsync_mirrors"
 alakazam() {
     local -A remote localdir
 
@@ -90,8 +91,6 @@ alakazam() {
     localdir[galba]="/Users/wes/Documents/bps/RP2/rsync_mirrors/galba_mirror/"
     localdir[tiberius]="/Users/wes/Documents/bps/RP2/rsync_mirrors/tiberius_mirror/"
     localdir[alice]="/Users/wes/Documents/bps/RP2/rsync_mirrors/alice_mirror/"
-
-    [[ -z ${remote[$1]} ]] && { echo "unknown target: $1" >&2; return 1; }
 
     case "$2" in
         push)
