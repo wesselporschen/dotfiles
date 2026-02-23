@@ -79,6 +79,38 @@ alias nvim="~/.local/share/bob/nightly/bin/nvim"
 # from yt/@semicolonsons https://www.youtube.com/watch?v=LI_Tv5dJkkk
 alias dot="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME" # separate git management of dotfiles
 
+# rsyncing to and from servers
+alakazam() {
+    local -A remote localdir
+
+    remote[galba]="/home/s2004267/galba_mirror/"
+    remote[tiberius]="/home/s2004267/tiberius_mirror/"
+    remote[alice]="/home/s2004267/data1/alice_mirror/"
+
+    localdir[galba]="/Users/wes/Documents/bps/RP2/rsync_mirrors/galba_mirror/"
+    localdir[tiberius]="/Users/wes/Documents/bps/RP2/rsync_mirrors/tiberius_mirror/"
+    localdir[alice]="/Users/wes/Documents/bps/RP2/rsync_mirrors/alice_mirror/"
+
+    [[ -z ${remote[$1]} ]] && { echo "unknown target: $1" >&2; return 1; }
+
+    case "$2" in
+        push)
+            rsync -azuve ssh \
+                "${localdir[$1]}" \
+                "$1:${remote[$1]}"
+            ;;
+        pull)
+            rsync -azuve ssh \
+                "$1:${remote[$1]}" \
+                "${localdir[$1]}"
+            ;;
+        *)
+            echo "usage: alakazam {galba|tiberius|alice} {push|pull}" >&2
+            return 1
+            ;;
+    esac
+}
+
 source <(fzf --zsh)
 
 # Changes current working directory when exiting yazi (yy to start)
