@@ -30,11 +30,12 @@ unset __mamba_setup
 
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH=$PATH:$HOME/go/bin
-
+export PATH="$HOME/.local/share/bob/nightly/bin:$PATH"
 set -o vi
 
 #export EDITOR="/usr/local/bin/nvim"
-export EDITOR="~/.local/share/bob/nightly/bin/nvim"
+#export EDITOR="~/.local/share/bob/nightly/bin/nvim"
+export EDITOR="nvim"
 
 export PYMEMDYN="/Users/wes/Documents/code/pymemdyn"
 export PATH=$PYMEMDYN:$PATH
@@ -73,7 +74,7 @@ alias t="tgpt -m"
 # temp aliases on macOS until nvim 0.12 release
 alias n="~/.local/share/bob/nightly/bin/nvim"
 alias vim="~/.local/share/bob/nightly/bin/nvim"
-alias nvim="~/.local/share/bob/nightly/bin/nvim"
+#alias nvim="~/.local/share/bob/nightly/bin/nvim"
 
 # separate git management of dotfiles
 # from yt/@semicolonsons https://www.youtube.com/watch?v=LI_Tv5dJkkk

@@ -42,6 +42,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [d]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [d]iagnostic message' })
+vim.keymap.set('n', '<C-w>%', ':vsplit<CR>')
 
 -- [[ plugins ]] --
 
@@ -53,6 +54,8 @@ vim.pack.add({
     { src = "https://github.com/nvim-lua/plenary.nvim" },
     { src = "https://github.com/theprimeagen/harpoon" },
     { src = "https://github.com/mbbill/undotree" },
+    { src = "https://github.com/saghen/blink.cmp" },
+    { src = "https://github.com/windwp/nvim-autopairs" },
 })
 
 
@@ -68,16 +71,50 @@ vim.lsp.enable({
     "clangd",
 })
 
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(args)
-        local opts = { buffer = args.buf }
+vim.lsp.handlers["textDocument/hover"] =
+  vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", stylize_markdown = false })
 
-        vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover)
-    end,
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local opts = { buffer = args.buf }
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+    -- disable document highlight (prevents lingering highlights)
+    if client then
+      client.server_capabilities.documentHighlightProvider = false
+    end
+
+    -- LSP keymaps
+    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
+
+    vim.keymap.set("n", "K", function()
+      vim.lsp.buf.clear_references()
+      vim.lsp.buf.hover()
+    end, opts)
+  end,
 })
 
+-- blink autocompletion
+
+vim.cmd("packadd blink.cmp")
+
+require("blink.cmp").setup({
+    keymap = {
+        preset = "default",
+        ['<CR>'] = { 'accept', 'fallback'},
+    },
+    appearance = { nerd_font_variant = "mono"},
+    sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+    },
+})
+
+
+
+-- autopairs
+
+require("nvim-autopairs").setup({})
 
 -- harpoon
 

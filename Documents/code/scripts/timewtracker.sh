@@ -5,9 +5,8 @@ CATEGORIES=(
     "OTHER"
 	"READING (NO SLOP)"
 	"LANGUAGES"
-    "WORKFLOW"
 	"ADMIN"
-	"STUDY"
+	"WORK"
     "PROGRAMMING"
     "DRAWING"
 	"MUSIC"
@@ -29,5 +28,5 @@ if [[ "$selected" == "STOP" ]]; then
     tmux set -g status-right "..."
 else
     timew start "$selected"
-    tmux set -g status-right "$selected"
+    tmux set -g status-right "$selected" 
 fi
