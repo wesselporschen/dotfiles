@@ -16,7 +16,7 @@ def electronmaps(pdb, res=None):
     cmd.hide("all")
     cmd.show("cartoon")
 
-    supercell(a=1, b=1, c=1, withmates=1, prefix="symmates")
+    supercell(a=2, b=2, c=2, withmates=1, prefix="symmates")
 
     if res:
         cmd.select("target_res", f"{pdb} and resi {res}")

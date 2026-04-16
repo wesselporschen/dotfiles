@@ -29,6 +29,7 @@ unset __mamba_setup
 # <<< mamba initialize <<<
 
 export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH="/Users/wes/.local/bin/:$PATH"
 export PATH=$PATH:$HOME/go/bin
 export PATH="$HOME/.local/share/bob/nightly/bin:$PATH"
 set -o vi
@@ -130,3 +131,6 @@ if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
 fi
 
 
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
