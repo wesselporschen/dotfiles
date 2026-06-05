@@ -130,6 +130,15 @@ if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
   tmux attach -t 0 || tmux new -s 0
 fi
 
+# Shared history between tmux
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
 
 
 # Generated for envman. Do not edit.
