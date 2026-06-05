@@ -71,6 +71,7 @@ alias ..="cd .."
 alias cl="clear"
 alias q="/Users/wes/Documents/code/scripts/quoter.sh"
 alias t="tgpt -m"
+alias history="fc -li 1"
 
 # temp aliases on macOS until nvim 0.12 release
 alias n="~/.local/share/bob/nightly/bin/nvim"
@@ -131,14 +132,16 @@ if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
 fi
 
 # Shared history between tmux
-HISTFILE=~/.zsh_history
-HISTSIZE=100000
-SAVEHIST=100000
+export HISTFILE=~/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=100000
 
 setopt APPEND_HISTORY
-setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+unsetopt SHARE_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
+setopt EXTENDED_HISTORY
 
 
 # Generated for envman. Do not edit.
