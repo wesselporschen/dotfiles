@@ -72,6 +72,7 @@ alias cl="clear"
 alias q="/Users/wes/Documents/code/scripts/quoter.sh"
 alias t="tgpt -m"
 alias history="fc -li 1"
+alias vmd="/Applications/VMD.app/Contents/vmd/vmd_MACOSXX86_64"
 
 # temp aliases on macOS until nvim 0.12 release
 alias n="~/.local/share/bob/nightly/bin/nvim"
