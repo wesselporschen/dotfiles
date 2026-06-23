@@ -1,4 +1,3 @@
-
 # macOS application shortcuts
 #cmd - return : open -na /Applications/alacritty.app
 cmd - return : open -a Kitty
@@ -6,7 +5,7 @@ cmd + shift - return : open -na '/Applications/kitty.app'
 cmd - b : open -a '/Applications/Brave Browser.app'
 cmd + shift -  b : open -na '/Applications/Brave Browser.app'
 cmd + alt - b : open -n 'http://www.chatgpt.com'
-cmd + o : open -a '/Applications/Obsidian.app/'
+cmd + alt - o : open -a '/Applications/Obsidian.app/'
 
 # yabai keybinds
 #alt - h : yabai -m window --focus west
