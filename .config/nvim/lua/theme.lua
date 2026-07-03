@@ -59,8 +59,6 @@ function M.apply()
     vim.api.nvim_set_hl(0, "markdownUrl", { fg = c.operator })
 end
 
-vim.lsp.handlers["textDocument/hover"] =
-  vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", stylize_markdown = false })
-
+vim.o.winborder = "rounded"
 
 return M

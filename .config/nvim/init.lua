@@ -71,30 +71,28 @@ vim.lsp.enable({
     "clangd",
 })
 
-vim.lsp.handlers["textDocument/hover"] =
-  vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", stylize_markdown = false })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local opts = { buffer = args.buf }
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-    -- disable document highlight (prevents lingering highlights)
     if client then
       client.server_capabilities.documentHighlightProvider = false
     end
 
-    -- LSP keymaps
     vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts)
     vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
 
     vim.keymap.set("n", "K", function()
       vim.lsp.buf.clear_references()
-      vim.lsp.buf.hover()
+      vim.lsp.buf.hover({
+        border = "rounded",
+        stylize_markdown = false,
+      })
     end, opts)
   end,
 })
-
 -- blink autocompletion
 
 vim.cmd("packadd blink.cmp")

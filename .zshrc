@@ -28,10 +28,11 @@ fi
 unset __mamba_setup
 # <<< mamba initialize <<<
 
+export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="/Users/wes/.local/bin/:$PATH"
 export PATH=$PATH:$HOME/go/bin
-export PATH="$HOME/.local/share/bob/nightly/bin:$PATH"
+#export PATH="$HOME/.local/share/bob/nightly/bin:$PATH"
 set -o vi
 
 #export EDITOR="/usr/local/bin/nvim"
@@ -76,9 +77,11 @@ alias vmd="/Applications/VMD.app/Contents/vmd/vmd_MACOSXX86_64"
 alias sqlbrowser="/Applications/DB\ Browser\ for\ SQLite.app/Contents/MacOS/DB\ Browser\ for\ SQLite"
 
 # temp aliases on macOS until nvim 0.12 release
-alias n="~/.local/share/bob/nightly/bin/nvim"
-alias vim="~/.local/share/bob/nightly/bin/nvim"
+#alias n="~/.local/share/bob/nightly/bin/nvim"
+#alias vim="~/.local/share/bob/nightly/bin/nvim"
 #alias nvim="~/.local/share/bob/nightly/bin/nvim"
+alias vim="nvim"
+
 
 # separate git management of dotfiles
 # from yt/@semicolonsons https://www.youtube.com/watch?v=LI_Tv5dJkkk
