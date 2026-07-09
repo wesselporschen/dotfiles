@@ -1,4 +1,5 @@
- -- [[ modules ]] --
+-- [[ modules ]] --
+
 require("theme").apply()
 
 -- [[ options ]] --
@@ -18,6 +19,7 @@ vim.opt.swapfile = false
 vim.opt.undofile = true
 vim.opt.signcolumn = "yes"
 vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
@@ -26,6 +28,25 @@ vim.opt.scrolloff = 8
 vim.g.have_nerd_font = true
 
 vim.g.mapleader = " "
+
+-- [[ general keymaps ]] --
+
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [d]iagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [d]iagnostic message' })
+vim.keymap.set('n', '<C-w>%', ':vsplit<CR>')
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+-- [[ misc ]]
+
+-- indent based folding for python and lua files (in normal mode: 'za', 'zc', etc.)
+vim.opt.foldlevelstart = 99
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "python", "lua" },
+    callback = function()
+        vim.opt_local.foldmethod = "indent"
+    end,
+})
 
 -- highlight when yanking
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -38,11 +59,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
--- [[ general keymaps ]] --
 
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [d]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [d]iagnostic message' })
-vim.keymap.set('n', '<C-w>%', ':vsplit<CR>')
 
 -- [[ plugins ]] --
 
@@ -73,28 +90,30 @@ vim.lsp.enable({
 
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local opts = { buffer = args.buf }
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    callback = function(args)
+        local opts = { buffer = args.buf }
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-    if client then
-      client.server_capabilities.documentHighlightProvider = false
-    end
+        if client then
+            client.server_capabilities.documentHighlightProvider = false
+        end
 
-    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts) -- go to definition 
-    vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
-    vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts) -- format buffer (indentation, linebreaks etc)
-    vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references) -- find every place it's used across project
-    vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, { desc = "Go to type definition" }   )
+        vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts, { desc = "Go to definition" })
+        vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+        -- vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts, { desc = "Format buffer (indents, linebreaks, etc.)"} )
+        vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end,
+            { desc = "Format buffer (indents, linebreaks, etc)" })
+        vim.keymap.set("n", "<leader>fr", vim.lsp.buf.references, { desc = "Find references" })
+        vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
 
-    vim.keymap.set("n", "K", function() -- Hover documentation
-      vim.lsp.buf.clear_references()
-      vim.lsp.buf.hover({
-        border = "rounded",
-        stylize_markdown = false,
-      })
-    end, opts)
-  end,
+        vim.keymap.set("n", "K", function() -- Hover documentation
+            vim.lsp.buf.clear_references()
+            vim.lsp.buf.hover({
+                border = "rounded",
+                stylize_markdown = false,
+            })
+        end, opts)
+    end,
 })
 -- blink autocompletion
 
@@ -103,14 +122,15 @@ vim.cmd("packadd blink.cmp")
 require("blink.cmp").setup({
     keymap = {
         preset = "default",
-        ['<CR>'] = { 'accept', 'fallback'},
+        ['<CR>'] = { 'accept', 'fallback' },
     },
-    appearance = { nerd_font_variant = "mono"},
+    appearance = { nerd_font_variant = "mono" },
     sources = {
         default = { "lsp", "path", "snippets", "buffer" },
     },
 })
 
+vim.opt.completeopt = "menu,menuone,noselect"
 
 
 -- autopairs
@@ -137,11 +157,11 @@ vim.keymap.set('n', '<leader>4', function() ui.nav_file(4) end)
 
 require "oil".setup()
 
-vim.keymap.set('n', '<leader>e', ':Oil<CR>')
+vim.keymap.set('n', '<leader>e', require("oil").open)
 vim.keymap.set('n', '<leader>gl', ':lua vim.diagnostic.open_float()<CR>')
 
 
--- mini.pick
+-- mini.pick (finding files in (sub)directories based on filename, grepping contents)
 
 require "mini.pick".setup()
 
@@ -151,10 +171,14 @@ vim.keymap.set('n', '<leader>fg', ':Pick grep_live<CR>')
 -- vim.keymap.set('n', '<leader>tt', '<cmd>Pick files tool=git<CR>')
 
 local pick = require('mini.pick')
-vim.keymap.set('n', '<leader>fG', function()
-    local root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
-    pick.builtin.files({
-        tool = 'git',
-        cwd = root,
-    })
+vim.keymap.set("n", "<leader>fG", function()
+    local root = vim.fs.root(0, ".git")
+    if root then
+        pick.builtin.files({
+            tool = "git",
+            cwd = root,
+        })
+    else
+        vim.notify("Not in a git repository")
+    end
 end)
