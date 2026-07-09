@@ -81,10 +81,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
       client.server_capabilities.documentHighlightProvider = false
     end
 
-    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts)
-    vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
+    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts) -- go to definition 
+    vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+    vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts) -- format buffer (indentation, linebreaks etc)
+    vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references) -- find every place it's used across project
+    vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, { desc = "Go to type definition" }   )
 
-    vim.keymap.set("n", "K", function()
+    vim.keymap.set("n", "K", function() -- Hover documentation
       vim.lsp.buf.clear_references()
       vim.lsp.buf.hover({
         border = "rounded",

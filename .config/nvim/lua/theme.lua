@@ -57,6 +57,19 @@ function M.apply()
 
     vim.api.nvim_set_hl(0, "markdownLinkText", { fg = c.title2, underline = true })
     vim.api.nvim_set_hl(0, "markdownUrl", { fg = c.operator })
+
+    vim.api.nvim_set_hl(0, "@markup.strong", {
+        fg = c.darktext,
+        bg = c.bold,
+        bold = true,
+    })
+
+    vim.api.nvim_set_hl(0, "@markup.italic", {
+        fg = c.darktext,
+        bg = c.italic,
+        italic = true,
+    })
+
 end
 
 vim.o.winborder = "rounded"
